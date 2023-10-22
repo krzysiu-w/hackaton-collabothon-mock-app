@@ -9,12 +9,15 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import treeLogo from "../../assets/tree2.png";
+import { useAddUserCCMutation } from "../../redux/api/carbbynApi";
 
 const Home = () => {
   const [plantedTrees, setPlantedTrees] = useState(0);
   const [treesToPlant, setTreesToPlant] = useState(1);
+  const [addUserCC] = useAddUserCCMutation();
   const navigate = useNavigate();
-  const token = useAppSelector((state) => state.session.token);
+  const { token, email } = useAppSelector((state) => ({ token: state.session.token, email: state.session.email }));
+  const TREE_CO2_ABSORTION = 0.04;
 
   useEffect(() => {
     if (!token) {
@@ -23,8 +26,12 @@ const Home = () => {
   }, [navigate, token]);
 
   const plantTrees = (amount: number) => {
-    setPlantedTrees((prev) => prev + amount);
-    setTreesToPlant(0);
+    if (email) {
+
+      setPlantedTrees((prev) => prev + amount);
+      setTreesToPlant(0);
+      addUserCC({ email, cc: amount*TREE_CO2_ABSORTION })
+    }
   };
 
   return (
@@ -60,6 +67,7 @@ const Home = () => {
         </Grid>
         <Grid item xs={12}>
           <IconButton
+            disabled={treesToPlant <= 0}
             onClick={() =>
               treesToPlant > 0 && setTreesToPlant((prev) => prev - 1)
             }
@@ -72,6 +80,7 @@ const Home = () => {
       </Grid>
       <Grid textAlign="center" item xs={12}>
         <Button
+          disabled={treesToPlant <= 0}
           onClick={() => plantTrees(treesToPlant)}
           variant="contained"
           size="large"

@@ -1,20 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../store";
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `/api`,
-    prepareHeaders: (headers, { getState }) => {
-      const session = (getState() as RootState).session;
-
-      if (session.token) {
-        headers.set("Authorization", `Bearer ${session.token}`);
-      }
+    baseUrl: `https://collabothon23fra-1253.lm.r.appspot.com/api2`,
+    prepareHeaders: (headers) => {
+      
+      headers.set("x-api-key", `ZHVwYWR1cGEyMTM3Njk2OQ`);
 
       return headers;
     },
   }),
-  tagTypes: ['example'],
+  tagTypes: ['cc'],
   endpoints: () => ({}),
 });
+

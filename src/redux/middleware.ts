@@ -7,6 +7,7 @@ import {
 } from "./session/sessionSlice";
 import { RootState } from "./store";
 import Cookie from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 const LOCAL_SESSION_KEY = "token";
 
@@ -25,8 +26,6 @@ sessionListenerMiddleware.startListening({
 saveCookieMiddleware.startListening({
   matcher: isAnyOf(setToken),
   effect: (_action, listenerApi) => {
-    console.log('adasd');
-    
     const token = (listenerApi.getState() as RootState).session.token ?? "";
 
     Cookie.set(LOCAL_SESSION_KEY, token, {
@@ -38,6 +37,15 @@ saveCookieMiddleware.startListening({
 
 export function preloadSession(): SessionState {
   const token = Cookie.get(LOCAL_SESSION_KEY);
+
+  if (token) {
+    const { email, name } = jwt_decode(token) as {
+      email: string;
+      name: string;
+    };
+
+    return { token, email, username: name};
+  }
 
   return { token };
 }

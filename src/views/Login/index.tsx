@@ -49,7 +49,7 @@ const Login = () => {
         </Stack>
         <Stack justifyContent="center" textAlign="center">
           <Typography variant="h3" px={8}>
-            TreePlanters
+            TreePlanter
           </Typography>
         </Stack>
         <Stack textAlign="center">
