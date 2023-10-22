@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAppSelector } from "../../redux/hooks";
+import { useAddUserCCMutation } from "../../redux/api/carbbynApi";
 
 const Home = () => {
   const [plantedTrees, setPlantedTrees] = useState(0);
   const [treesToPlant, setTreesToPlant] = useState(1);
+  const [addUserCC] = useAddUserCCMutation();
   const navigate = useNavigate();
   const token = useAppSelector((state) => state.session.token);
+  const TREE_CO2_ABSORTION = 0.04;
 
   useEffect(() => {
     if (!token) {
@@ -31,7 +34,10 @@ const Home = () => {
       <div>
         <button
           onClick={() => {
-            setPlantedTrees((prev) => prev + treesToPlant);
+
+              setPlantedTrees((prev) => prev + treesToPlant);
+            
+            addUserCC({email: 'panpietruszka221@gmail.com', cc: (treesToPlant*TREE_CO2_ABSORTION)})
             setTreesToPlant(0);
           }}
         >
