@@ -6,16 +6,11 @@ import Login from "../views/Login";
 const router = createBrowserRouter([
   {
     path: "/",
-    children: [
-      {
-        path: PATH.HOME,
-        element: <Home />,
-      },
-      {
-        path: PATH.LOGIN,
-        element: <Login />,
-      },
-    ],
+    element: <Home />,
+  },
+  {
+    path: PATH.LOGIN,
+    element: <Login />,
   },
 ]);
 

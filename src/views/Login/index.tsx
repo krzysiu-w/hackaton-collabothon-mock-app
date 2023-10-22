@@ -3,8 +3,9 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useAppDispatch } from "../../redux/hooks";
 import { setToken } from "../../redux/session/sessionSlice";
 import { useNavigate } from "react-router";
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useAppSelector } from "../../redux/hooks";
+import treeLogo from "../../assets/tree1.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,26 +26,46 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      navigate("/home");
+      navigate("/");
     }
   }, [navigate, token]);
 
   return (
-    <Stack justifyContent="center" height="100vh">
-      <Stack>
-        <Typography variant="body1" px={8} textAlign="center" mb={16}>
-          Tu se posadz drzewka
-        </Typography>
-        <Stack direction="row" justifyContent="center">
+    <>
+      <Box sx={{ position: "absolute" }}></Box>
+      <Stack
+        sx={{
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          position: "absolute",
+          gap: "100px",
+        }}
+        textAlign="center"
+        flexDirection="column"
+      >
+        <Stack alignItems="center">
+          <img src={treeLogo} height="200px" width="200px" />
+        </Stack>
+        <Stack justifyContent="center" textAlign="center">
+          <Typography variant="h3" px={8}>
+            TreePlanters
+          </Typography>
+        </Stack>
+        <Stack textAlign="center">
+          <Typography variant="body1" px={8} textAlign="center">
+            Planting Dreams, Nurturing Nature.
+          </Typography>
+        </Stack>
+        <Stack justifyContent="center" alignItems="center">
           <GoogleLogin
-            containerProps={{ style: { padding: "20px" } }}
             width="341px"
             onSuccess={handleOnSuccess}
             onError={handleOnError}
           />
         </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 };
 
